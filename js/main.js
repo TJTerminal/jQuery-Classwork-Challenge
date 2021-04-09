@@ -9,8 +9,24 @@ $(function() {
     let removedHomes = [];
 
     $('#addHome').removeClass('btn-danger').addClass('btn-success');
-    $(h1).addClass('text-center');
+    $('h1').addClass('text-center');
 
     let $newLink = $('<br><br><a id="zillowLink" href="http://www.zillow.com">Visit Zillow.com</a>');
-    $()
+    $('body').append($newLink);
+    // Open the new page on new tab
+    $('#zillowLink').attr('target', '_blank');
+
+    $('#homes tbody').on('click', 'button', function() {
+        // CONSOLE LOGGING THE CLICK OF THE RESET BUTTONS
+        console.log(this);
+        // REMOVES BUTTON WITH A BUILT IN EFFECT
+        let row = $(this).closest('tr');
+        // Before removing the row, save its outerHTML
+        removedHomes.push(row[0].outerHTML);
+        row.fadeOut(500, function() {
+            row.remove();
+        });
+        // Ensure that the "Restore Removed Homes" button is enabled
+        $('#restoreHomes').removeAttr('disabled')
+    })
 })

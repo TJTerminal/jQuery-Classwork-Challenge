@@ -28,5 +28,37 @@ $(function() {
         });
         // Ensure that the "Restore Removed Homes" button is enabled
         $('#restoreHomes').removeAttr('disabled')
-    })
+    });
+
+    /* -------------- Add a New Home -------------- */
+    $('#addHome').click(function() {
+        // Exit if there are no homes in the array
+        if (!newHomes.length) return;
+        // Grab a home
+        let home = newHomes.pop()
+        // Build the string for the new table row
+        var newRow = `<tr>
+                        <td>${home.address}</td><td>${home.sf}</td><td>${home.bedrooms}</td>
+                        <td>${home.baths}</td><td>${home.price}</td>
+                        <td><button class="btn btn-xs btn-danger">Remove</button></td>
+                    </tr>`;
+        // Append the string for the new row to the tbody element
+        $('#homes tbody').append(newRow);
+        // Disable the "Add Home" button if no more homes
+        if (!newHomes.length) $('#addHome').attr('disabled', true);
+
+    });
+
+    /* -------------- Restore Removed Homes -------------- */
+    $('#restoreHomes').on('click', function() {
+        removedHomes.forEach(function(home) {
+            $('#homes tbody').append(home)
+        });
+        // Clear the removedHomes array
+        removedHomes = [];
+        // Disable the button
+        // Note that the disabled attribute does not need a value
+        $('#restoreHomes').attr('disabled', '');
+    });
+
 })
